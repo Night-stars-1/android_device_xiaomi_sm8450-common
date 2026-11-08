@@ -141,7 +141,21 @@ uwu_kernel {
 // END DITING SOONG KERNEL
 
 // BEGIN DITING SOONG VINTF SKU MANIFESTS
-vintf_data {
+soong_config_module_type {
+    name: "diting_soong_vintf_data",
+    module_type: "vintf_data",
+    config_namespace: "diting",
+    bool_variables: ["soong_only"],
+    properties: ["enabled"],
+}
+
+diting_soong_vintf_data {
+    enabled: false,
+    soong_config_variables: {
+        soong_only: {
+            enabled: true,
+        },
+    },
     name: "diting_vendor_manifest_taro",
     type: "vendor_manifest",
     filename: "manifest_taro.xml",
@@ -152,7 +166,13 @@ vintf_data {
     ],
 }
 
-vintf_data {
+diting_soong_vintf_data {
+    enabled: false,
+    soong_config_variables: {
+        soong_only: {
+            enabled: true,
+        },
+    },
     name: "diting_vendor_manifest_diwali",
     type: "vendor_manifest",
     filename: "manifest_diwali.xml",
@@ -163,7 +183,13 @@ vintf_data {
     ],
 }
 
-vintf_data {
+diting_soong_vintf_data {
+    enabled: false,
+    soong_config_variables: {
+        soong_only: {
+            enabled: true,
+        },
+    },
     name: "diting_vendor_manifest_cape",
     type: "vendor_manifest",
     filename: "manifest_cape.xml",
@@ -174,7 +200,13 @@ vintf_data {
     ],
 }
 
-vintf_data {
+diting_soong_vintf_data {
+    enabled: false,
+    soong_config_variables: {
+        soong_only: {
+            enabled: true,
+        },
+    },
     name: "diting_vendor_manifest_ukee",
     type: "vendor_manifest",
     filename: "manifest_ukee.xml",
