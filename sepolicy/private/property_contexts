@@ -1,2 +1,3 @@
 ro.uwu.feature.island u:object_r:uwu_island_prop:s0 exact bool
+persist.sys.feature.island u:object_r:uwu_island_prop:s0 exact bool
 ro.mi.os.version.code u:object_r:uwu_island_prop:s0 exact int
