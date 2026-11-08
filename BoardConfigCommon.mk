@@ -66,14 +66,16 @@ BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_RAMDISK_USE_LZ4 := true
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
-BOARD_USES_QCOM_MERGE_DTBS_SCRIPT := true
 TARGET_NEEDS_DTBOIMAGE := true
 
 BOARD_KERNEL_BASE        := 0x00000000
 BOARD_KERNEL_PAGESIZE    := 4096
 BOARD_KERNEL_IMAGE_NAME := Image
 
+ifneq ($(UWU_SOONG_ONLY_BUILD),true)
+BOARD_USES_QCOM_MERGE_DTBS_SCRIPT := true
 TARGET_KERNEL_ADDITIONAL_FLAGS := TARGET_PRODUCT=$(PRODUCT_DEVICE)
+TARGET_KERNEL_ADDITIONAL_FLAGS += BRANCH=android12-5.10 KMI_GENERATION=9
 TARGET_KERNEL_SOURCE := kernel/xiaomi/sm8450
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
@@ -81,6 +83,11 @@ TARGET_KERNEL_CONFIG := \
     vendor/xiaomi_GKI.config \
     vendor/$(PRODUCT_DEVICE)_GKI.config \
     vendor/debugfs.config
+else
+BOARD_USES_SOONG_KERNEL := true
+SOONG_KERNEL_MODULE := //device/xiaomi/sm8450-common:kernel
+TARGET_KERNEL_VERSION := 5.10
+endif
 
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS := --header_version $(BOARD_BOOT_HEADER_VERSION)
@@ -90,13 +97,14 @@ BOARD_VENDOR_RAMDISK_FRAGMENT.dlkm.KERNEL_MODULE_DIRS := top
 
 BOARD_KERNEL_CMDLINE := \
     disable_dma32=on \
-    mtdoops.fingerprint=$(LINEAGE_VERSION)
+    mtdoops.fingerprint=$(UWU_VERSION)
 BOARD_BOOTCONFIG := \
     androidboot.hardware=qcom \
     androidboot.memcg=1 \
     androidboot.usbcontroller=a600000.dwc3
 
 # Kernel modules
+ifneq ($(UWU_SOONG_ONLY_BUILD),true)
 first_stage_modules := $(strip $(shell cat $(TARGET_KERNEL_SOURCE)/modules.list.msm.waipio))
 second_stage_modules := $(strip $(shell cat $(COMMON_PATH)/modules.list.second_stage))
 vendor_dlkm_exclusive_modules := $(strip $(shell cat $(COMMON_PATH)/modules.list.vendor_dlkm))
@@ -130,6 +138,7 @@ TARGET_KERNEL_EXT_MODULES := \
 	qcom/opensource/video-driver \
 	qcom/opensource/wlan/qcacld-3.0/.qca6490 \
 	qcom/opensource/wlan/qcacld-3.0/.qca6750
+endif
 
 # Metadata
 BOARD_USES_METADATA_PARTITION := true
@@ -158,8 +167,6 @@ TARGET_COPY_OUT_PRODUCT := product
 TARGET_COPY_OUT_SYSTEM_EXT := system_ext
 TARGET_COPY_OUT_VENDOR := vendor
 TARGET_COPY_OUT_VENDOR_DLKM := vendor_dlkm
-
--include vendor/lineage/config/BoardConfigReservedSize.mk
 
 # Platform
 BOARD_USES_QCOM_HARDWARE := true

@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0
+# The immutable build capability and client compatibility level are publicly readable.
+system_restricted_prop(uwu_island_prop)
+get_prop(appdomain, uwu_island_prop)

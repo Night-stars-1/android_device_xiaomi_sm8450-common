@@ -295,7 +295,6 @@ PRODUCT_PACKAGES += \
     DialerResXiaomi \
     FrameworksResTarget \
     FrameworksResXiaomi \
-    LineageResXiaomi \
     SettingsProviderResXiaomi \
     SettingsResXiaomi \
     WifiResTarget \
@@ -501,3 +500,7 @@ PRODUCT_PACKAGES += \
     firmware_qca6490_wlan_mac.bin_symlink \
     firmware_qca6750_WCNSS_qcom_cfg.ini_symlink \
     firmware_qca6750_wlan_mac.bin_symlink
+
+ifeq ($(UWU_SOONG_ONLY_BUILD),true)
+PRODUCT_PACKAGES += kernel kernel_modules_vendor_dlkm kernel_modules_vendor_ramdisk kernel_modules_recovery
+endif

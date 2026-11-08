@@ -45,3 +45,144 @@ install_symlink {
     installed_location: "firmware/wlan/qca_cld/qca6750/wlan_mac.bin",
     symlink_target: "/mnt/vendor/persist/qca6750/wlan_mac.bin",
 }
+// BEGIN DITING SOONG KERNEL
+uwu_kernel {
+    name: "kernel",
+    kernel_dir: "kernel/xiaomi/sm8450",
+    kernel_arch: "arm64",
+    image_name: "Image",
+    additional_flags: [
+        "TARGET_PRODUCT=diting",
+        "BRANCH=android12-5.10",
+        "KMI_GENERATION=9",
+    ],
+
+    config: {
+        defconfig: "gki_defconfig",
+        fragments: [
+            "vendor/waipio_GKI.config",
+            "vendor/xiaomi_GKI.config",
+            "vendor/diting_GKI.config",
+            "vendor/debugfs.config",
+        ],
+    },
+
+    dtb: {
+        enabled: true,
+        qcom_merge: true,
+        target: "dtbs",
+        image_name: "dtb.img",
+    },
+
+    dtbo: {
+        enabled: true,
+        target: "dtbs",
+        image_name: "dtbo.img",
+        page_size: 4096,
+    },
+
+    modules: {
+        enabled: true,
+        external_module_root: "kernel/xiaomi/sm8450-modules",
+        external_modules: [
+            "qcom/opensource/mmrm-driver",
+            "qcom/opensource/audio-kernel",
+            "qcom/opensource/camera-kernel",
+            "qcom/opensource/cvp-kernel",
+            "qcom/opensource/dataipa/drivers/platform/msm",
+            "qcom/opensource/datarmnet/core",
+            "qcom/opensource/datarmnet-ext/aps",
+            "qcom/opensource/datarmnet-ext/offload",
+            "qcom/opensource/datarmnet-ext/shs",
+            "qcom/opensource/datarmnet-ext/perf",
+            "qcom/opensource/datarmnet-ext/perf_tether",
+            "qcom/opensource/datarmnet-ext/sch",
+            "qcom/opensource/datarmnet-ext/wlan",
+            "qcom/opensource/display-drivers/msm",
+            "qcom/opensource/eva-kernel",
+            "qcom/opensource/video-driver",
+            "qcom/opensource/wlan/qcacld-3.0/.qca6490",
+            "qcom/opensource/wlan/qcacld-3.0/.qca6750",
+        ],
+        vendor_dlkm_module_install_list: [
+            "device/xiaomi/sm8450-common/modules.list.second_stage",
+            "device/xiaomi/sm8450-common/modules.list.vendor_dlkm",
+        ],
+        vendor_dlkm_module_load_list: [
+            "device/xiaomi/sm8450-common/modules.list.second_stage",
+            "device/xiaomi/sm8450-common/modules.list.vendor_dlkm",
+        ],
+        vendor_dlkm_install_all: true,
+        vendor_ramdisk_module_install_list: [
+            "kernel/xiaomi/sm8450/modules.list.msm.waipio",
+            "device/xiaomi/sm8450-common/modules.list.second_stage",
+        ],
+        vendor_ramdisk_module_load_list: [
+            "kernel/xiaomi/sm8450/modules.list.msm.waipio",
+        ],
+        vendor_ramdisk_recovery_module_load_list: [
+            "kernel/xiaomi/sm8450/modules.list.msm.waipio",
+            "device/xiaomi/sm8450-common/modules.list.second_stage",
+        ],
+        recovery_module_install_list: [
+            "kernel/xiaomi/sm8450/modules.list.msm.waipio",
+            "device/xiaomi/sm8450-common/modules.list.second_stage",
+        ],
+        recovery_module_load_list: [
+            "kernel/xiaomi/sm8450/modules.list.msm.waipio",
+            "device/xiaomi/sm8450-common/modules.list.second_stage",
+        ],
+        vendor_dlkm_module_blocklist: "kernel/xiaomi/sm8450/modules.vendor_blocklist.msm.waipio",
+        vendor_ramdisk_module_blocklist: "kernel/xiaomi/sm8450/modules.vendor_blocklist.msm.waipio",
+        recovery_module_blocklist: "kernel/xiaomi/sm8450/modules.vendor_blocklist.msm.waipio",
+        auto_collect_deps: true,
+    },
+}
+// END DITING SOONG KERNEL
+
+// BEGIN DITING SOONG VINTF SKU MANIFESTS
+vintf_data {
+    name: "diting_vendor_manifest_taro",
+    type: "vendor_manifest",
+    filename: "manifest_taro.xml",
+    vendor: true,
+    srcs: [
+        "vintf/manifest.xml",
+        "vintf/manifest_xiaomi.xml",
+    ],
+}
+
+vintf_data {
+    name: "diting_vendor_manifest_diwali",
+    type: "vendor_manifest",
+    filename: "manifest_diwali.xml",
+    vendor: true,
+    srcs: [
+        "vintf/manifest.xml",
+        "vintf/manifest_xiaomi.xml",
+    ],
+}
+
+vintf_data {
+    name: "diting_vendor_manifest_cape",
+    type: "vendor_manifest",
+    filename: "manifest_cape.xml",
+    vendor: true,
+    srcs: [
+        "vintf/manifest.xml",
+        "vintf/manifest_xiaomi.xml",
+    ],
+}
+
+vintf_data {
+    name: "diting_vendor_manifest_ukee",
+    type: "vendor_manifest",
+    filename: "manifest_ukee.xml",
+    vendor: true,
+    srcs: [
+        "vintf/manifest.xml",
+        "vintf/manifest_xiaomi.xml",
+    ],
+}
+
+// END DITING SOONG VINTF SKU MANIFESTS
